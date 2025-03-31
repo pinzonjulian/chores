@@ -23,5 +23,8 @@ module ChoresApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # We prefer Oaken to fixtures, so we disable them here.
+    config.app_generators { _1.test_framework _1.test_framework, fixture: false }
   end
 end

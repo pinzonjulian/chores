@@ -187,6 +187,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.3-x86_64-linux-musl)
       racc (~> 1.4)
+    oaken (0.7.1)
     ostruct (0.6.1)
     parallel (1.26.3)
     parser (3.3.7.1)
@@ -406,6 +407,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  oaken (~> 0.7.1)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
