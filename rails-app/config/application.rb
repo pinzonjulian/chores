@@ -26,5 +26,11 @@ module ChoresApp
 
     # We prefer Oaken to fixtures, so we disable them here.
     config.app_generators { _1.test_framework _1.test_framework, fixture: false }
+
+    config.generators do |g|
+      g.helper false
+      g.jbuilder false
+      g.test_framework :rspec, view_specs: false
+    end
   end
 end
