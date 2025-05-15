@@ -65,6 +65,6 @@ class ChoresController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def chore_params
-      params.expect(chore: [ :name, :schedule, :household_id ])
+      params.expect(chore: [ :name, :household_id, schedule: [ { rrule: [ :interval, :rule_type, { validations: [[:day]]} ] } ] ])
     end
 end

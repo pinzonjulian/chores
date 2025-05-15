@@ -13,17 +13,37 @@
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": chore.errors[:name].none?, "border-red-400 focus:outline-red-600": chore.errors[:name].any?}] %>
+    <%= form.text_field :name, class: [ "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", { "border-gray-400 focus:outline-blue-600": chore.errors[:name].none?, "border-red-400 focus:outline-red-600": chore.errors[:name].any? } ], data: {"1p-ignore" => ""} %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :schedule %>
-    <%= form.textarea :schedule, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any?}] %>
+  <div data-controller="schedule">
+    <%= form.fields_for :schedule do |schedule_form| %>
+      <%= schedule_form.fields_for :rrule do |rrule_form| %>
+        <div class="my-5 flex flex-row items-center justify-normal">
+          <%= rrule_form.label :interval, "Repeat every" %>
+          <%= rrule_form.number_field :interval, min: 1, max: 365, value: 1, class: [ "shadow-sm rounded-md border px-3 py-2 mt-2 mx-2", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ] %>
+          <%= rrule_form.select :rule_type, [ 'day', 'week', 'month' ], {}, class: [ "shadow-sm rounded-md border px-3 py-2 mt-2 mx-3", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ], data: {action: "schedule#toggleFields"} %>
+        </div>
+        <%= rrule_form.fields_for :validations do |validations_form| %>
+          <div data-schedule-target="weeklyFields">
+            <!--          Weekly-->
+            <%= validations_form.select :day, [ [ 'Monday', 1 ], [ 'Tuesday', 2 ], [ 'Wednesday', 3 ], [ 'Thursday', 4 ], [ 'Friday', 5 ], [ 'Saturday', 6 ], [ 'Sunday', 0 ] ], { multiple: true, include_hidden: false }, class: [ "h-full shadow-sm rounded-md border px-3 py-2", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ] %>
+          </div>
+          <div data-schedule-target="monthlyFields">
+            <!--          Monthly-->
+            <%= validations_form.select :week_of_month, [ [ 'First', 1 ], [ 'Second', 2 ], [ 'Third', 3 ], [ 'Fourth', 4 ], [ 'Last', -1 ] ], {}, class: [ "h-full shadow-sm rounded-md border px-3 py-2", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ] %>
+            <%= validations_form.select :day_of_week, [ [ 'Monday', 1 ], [ 'Tuesday', 2 ], [ 'Wednesday', 3 ], [ 'Thursday', 4 ], [ 'Friday', 5 ], [ 'Saturday', 6 ], [ 'Sunday', 0 ] ], { }, class: [ "h-full shadow-sm rounded-md border px-3 py-2", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ] %>
+            or
+            <%= validations_form.select :day_of_week, [ [ 'Monday', 1 ], [ 'Tuesday', 2 ], [ 'Wednesday', 3 ], [ 'Thursday', 4 ], [ 'Friday', 5 ], [ 'Saturday', 6 ], [ 'Sunday', 0 ] ], { }, class: [ "h-full shadow-sm rounded-md border px-3 py-2", { "border-gray-400 focus:outline-blue-600": chore.errors[:schedule].none?, "border-red-400 focus:outline-red-600": chore.errors[:schedule].any? } ] %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="my-5">
     <%= form.label :household_id %>
-    <%= form.text_field :household_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": chore.errors[:household_id].none?, "border-red-400 focus:outline-red-600": chore.errors[:household_id].any?}] %>
+    <%= form.text_field :household_id, class: [ "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", { "border-gray-400 focus:outline-blue-600": chore.errors[:household_id].none?, "border-red-400 focus:outline-red-600": chore.errors[:household_id].any? } ] %>
   </div>
 
   <div class="inline">
